@@ -12,7 +12,7 @@ router.get("/practice", validateJWT, (req, res) => {
     res.send('This is your practice route.')
 });
 
-router.post("/create", validateJWT, async (req, res) => {
+router.post("/log", validateJWT, async (req, res) => {
     const { description, definition, result } = req.body.log;
     const { id } = req.user;
     const logEntry = {
@@ -30,7 +30,7 @@ router.post("/create", validateJWT, async (req, res) => {
     //JournalModel.create(journalEntry) (LOOK above)
 });
 
-router.get("/about", (req, res) => {
+router.get("/log", (req, res) => {
     res.send('This is your about route.')
 });
 
@@ -48,7 +48,7 @@ router.get("/", async(req, res) => {
     }
     });
 
-    router.get("/mine", validateJWT, async (req, res) => {
+    router.get("/log:id", validateJWT, async (req, res) => {
         const { id } = req.user;
         try {
             const userLogs = await LogModel.findAll({
@@ -74,7 +74,7 @@ router.get("/", async(req, res) => {
     }
     });
 
-router.put("/update/:entryId", validateJWT, async(req, res) => {
+router.put("/log:id", validateJWT, async(req, res) => {
     const { description, definition, result } = req.body.log;
     const logId = req.params.entryId;
     const userId = req.user.id;
@@ -82,7 +82,7 @@ router.put("/update/:entryId", validateJWT, async(req, res) => {
     const query = {
         where: {
             id: logId,
-            owner: userId
+            owner: ownerId
         }
     };
 
@@ -100,7 +100,7 @@ router.put("/update/:entryId", validateJWT, async(req, res) => {
     }
 });
 
-router.delete("/delete/:id", validateJWT, async (req, res) => {
+router.delete("/log:id", validateJWT, async (req, res) => {
     const ownerId = req.user.id;
     const logId = req.params.id;
 
