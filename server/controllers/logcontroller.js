@@ -13,12 +13,12 @@ router.get("/practice", validateJWT, (req, res) => {
 });
 
 router.post("/create", validateJWT, async (req, res) => {
-    const { title, date, entry } = req.body.log;
+    const { description, definition, result } = req.body.log;
     const { id } = req.user;
     const logEntry = {
-        title,
-        date,
-        entry,
+        description,
+        definition,
+        result,
         owner: id
     }
     try {
@@ -75,7 +75,7 @@ router.get("/", async(req, res) => {
     });
 
 router.put("/update/:entryId", validateJWT, async(req, res) => {
-    const { title, date, entry } = req.body.log;
+    const { description, definition, result } = req.body.log;
     const logId = req.params.entryId;
     const userId = req.user.id;
 
@@ -87,9 +87,9 @@ router.put("/update/:entryId", validateJWT, async(req, res) => {
     };
 
     const updatedLog = {
-        title: title,
-        date: date,
-        entry: entry
+        description: description,
+        definition: definition,
+        result: result
     };
 
     try {
@@ -116,7 +116,7 @@ router.delete("/delete/:id", validateJWT, async (req, res) => {
         res.status(200).json({ message: "Log entry removed" });
     } catch (err) {
         res.status(500).json({ error: err });
-     }
+    }
     });
 
 
