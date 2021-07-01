@@ -48,7 +48,7 @@ router.get("/", async(req, res) => {
     }
     });
 
-    router.get("/log:id", validateJWT, async (req, res) => {
+    router.get("/user", validateJWT, async (req, res) => {
         const { id } = req.user;
         try {
             const userLogs = await LogModel.findAll({
@@ -74,14 +74,14 @@ router.get("/", async(req, res) => {
     }
     });
 
-router.put("/log:id", validateJWT, async(req, res) => {
+router.put("/:id", validateJWT, async(req, res) => {
     const { description, definition, result } = req.body.log;
-    const logId = req.params.entryId;
-    const userId = req.user.id;
+    const id = req.params.id;
+    const ownerId = req.user.id;
 
     const query = {
         where: {
-            id: logId,
+            id: id,
             owner: ownerId
         }
     };
@@ -100,7 +100,7 @@ router.put("/log:id", validateJWT, async(req, res) => {
     }
 });
 
-router.delete("/log:id", validateJWT, async (req, res) => {
+router.delete("/:id", validateJWT, async (req, res) => {
     const ownerId = req.user.id;
     const logId = req.params.id;
 
